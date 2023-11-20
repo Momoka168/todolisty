@@ -1,38 +1,34 @@
 CREATE TABLE `users` (
-  `id` integer PRIMARY KEY,
-  `username` varchar(255),
-  `password` varchar(255),
-  `role` varchar(255),
-  `created_at` timestamp,
-  `deleted_at` timestamp
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `username` VARCHAR(255),
+  `password` VARCHAR(255),
+  `role` VARCHAR(255),
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` TIMESTAMP
 );
 
 CREATE TABLE `tasks` (
-  `id` integer PRIMARY KEY,
-  `title` varchar(255),
-  `body` text COMMENT 'Content of the post',
-  `create_user_id` integer,
-  `assign_user_id` interger,
-  `status_id` integer,
-  `priority_id` interger,
-  `created_at` timestamp,
-  `deleted_at` timestamp
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `title` VARCHAR(255),
+  `body` TEXT COMMENT 'Content of the post',
+  `create_user_id` INT,
+  `assign_user_id` INT,
+  `status_id` INT,
+  `priority_id` INT,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` TIMESTAMP,
+  FOREIGN KEY (`status_id`) REFERENCES `status` (`id`),
+  FOREIGN KEY (`priority_id`) REFERENCES `priority` (`id`),
+  FOREIGN KEY (`create_user_id`) REFERENCES `users` (`id`),
+  FOREIGN KEY (`assign_user_id`) REFERENCES `users` (`id`)
 );
 
 CREATE TABLE `status` (
-  `id` integer PRIMARY KEY,
-  `label` varchar(255)
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `label` VARCHAR(255)
 );
 
 CREATE TABLE `priority` (
-  `id` integer PRIMARY KEY,
-  `label` varchar(255)
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `label` VARCHAR(255)
 );
-
-ALTER TABLE `tasks` ADD FOREIGN KEY (`status_id`) REFERENCES `status` (`id`);
-
-ALTER TABLE `tasks` ADD FOREIGN KEY (`priority_id`) REFERENCES `priority` (`id`);
-
-ALTER TABLE `tasks` ADD FOREIGN KEY (`create_user_id`) REFERENCES `users` (`id`);
-
-ALTER TABLE `tasks` ADD FOREIGN KEY (`assign_user_id`) REFERENCES `users` (`id`);
